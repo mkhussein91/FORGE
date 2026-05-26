@@ -582,7 +582,8 @@ const NAV=[
 ];
 
 function ForgeHealth(){
-  const [tab,setTab]=useState("dashboard");
+const [tab,setTab]=useState("dashboard");
+const [syncing,setSyncing]=useState(false);
   return(
     <>
       <style>{STYLES}</style>
@@ -598,10 +599,15 @@ function ForgeHealth(){
             <span style={{fontFamily:"var(--fd)",fontSize:20,letterSpacing:3}}>FORGE</span>
             <span style={{fontFamily:"var(--fm)",fontSize:9,color:"var(--muted)"}}>HEALTH OS</span>
           </div>
-          <span style={{fontFamily:"var(--fm)",fontSize:10,color:"var(--muted)"}}>
-            {new Date().toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}
-          </span>
-        </div>
+         <div style={{display:"flex",alignItems:"center",gap:8}}>
+<span style={{fontFamily:"var(--fm)",fontSize:10,color:"var(--muted)"}}>
+{new Date().toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}
+</span>
+<button onClick={()=>window.location.reload()} style={{
+background:"var(--card)",border:"1px solid var(--accent)",color:"var(--accent)",
+borderRadius:6,padding:"4px 12px",fontFamily:"var(--fm)",fontSize:10,cursor:"pointer"
+}}>↻ SYNC</button>
+</div>
 
         {/* Content */}
         <div style={{flex:1,padding:"14px 14px 0"}}>

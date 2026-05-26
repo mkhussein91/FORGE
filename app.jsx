@@ -1,4 +1,4 @@
-const { useState } = React;
+import { useState, useEffect, useCallback } from "react";
 
 const STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap');
@@ -238,8 +238,8 @@ function H2({children}){
 }
 
 // ── Screens ───────────────────────────────────────────────────────────────────
-function Dashboard(){
-  const d=DEMO, ins=INSIGHTS;
+function Dashboard({data=DEMO,insights=INSIGHTS}){
+  const d=data, ins=insights;
   return(
     <div className="fade" style={{display:"flex",flexDirection:"column",gap:14}}>
 
@@ -312,8 +312,8 @@ function Dashboard(){
   );
 }
 
-function Biometrics(){
-  const d=DEMO;
+function Biometrics({data=DEMO}){
+  const d=data;
   return(
     <div className="fade" style={{display:"flex",flexDirection:"column",gap:14}}>
       <H2>OURA RING</H2>
@@ -356,7 +356,7 @@ function Biometrics(){
   );
 }
 
-function Workout(){
+function Workout({insights=INSIGHTS}){
   const w=INSIGHTS.workout;
   return(
     <div className="fade" style={{display:"flex",flexDirection:"column",gap:14}}>
@@ -404,8 +404,8 @@ function Workout(){
   );
 }
 
-function Nutrition(){
-  const d=DEMO,n=INSIGHTS.nutrition,c=d.calai;
+function Nutrition({data=DEMO,insights=INSIGHTS}){
+  const d=data,n=insights.nutrition||INSIGHTS.nutrition,c=d.calai;
   return(
     <div className="fade" style={{display:"flex",flexDirection:"column",gap:14}}>
       <H2>YESTERDAY'S INTAKE</H2>
@@ -462,8 +462,14 @@ function Nutrition(){
   );
 }
 
-function Profile(){
-  const [p,setP]=useState({birthday:"",heightFt:"",heightIn:"",weightLbs:"",trainingAge:"",healthProblems:""});
+function Profile({onProfileSave,syncWhoop,whoopConnected}){
+  const [p,setP]=useState(()=>{
+    try{
+      const saved=localStorage.getItem("forge_profile");
+      return saved?JSON.parse(saved):{birthday:"",heightFt:"",heightIn:"",weightLbs:"",trainingAge:"",healthProblems:""};
+    }catch{return {birthday:"",heightFt:"",heightIn:"",weightLbs:"",trainingAge:"",healthProblems:""};}
+  });
+  const [saved,setSaved]=useState(false);
   const set=(k,v)=>setP(prev=>({...prev,[k]:v}));
   const age=p.birthday?Math.floor((Date.now()-new Date(p.birthday))/(365.25*86400000)):null;
   const inp={background:"var(--surface)",border:"1px solid var(--border)",borderRadius:8,
@@ -533,10 +539,12 @@ function Profile(){
               style={{...inp,resize:"vertical",lineHeight:1.5}} onFocus={onF} onBlur={onB}/>
           </div>
 
-          <button onClick={()=>alert("Profile saved! ✓")} style={{
+          <button onClick={()=>{
+            try{localStorage.setItem("forge_profile",JSON.stringify(p));setSaved(true);setTimeout(()=>setSaved(false),3000);if(onProfileSave)onProfileSave(p);}catch(e){}
+          }} style={{
             background:"var(--accent)",color:"#000",border:"none",borderRadius:10,
             padding:"14px",fontFamily:"var(--fb)",fontWeight:800,fontSize:14,letterSpacing:1,width:"100%"}}>
-            SAVE PROFILE →
+            {saved ? "✓ SAVED!" : "SAVE PROFILE →"}
           </button>
         </div>
       </div>
@@ -573,7 +581,7 @@ const NAV=[
   {id:"profile",   label:"Profile",  icon:"○"},
 ];
 
-function ForgeHealth(){
+export default function ForgeHealth(){
   const [tab,setTab]=useState("dashboard");
   return(
     <>
@@ -624,5 +632,3 @@ function ForgeHealth(){
     </>
   );
 }
-
-ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(ForgeHealth));

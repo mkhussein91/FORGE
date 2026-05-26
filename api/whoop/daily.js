@@ -1,8 +1,7 @@
-export default async function handler(req, res) {
-const cookie = req.headers.cookie || "";
-const token = cookie.match(/wa=([^;]+)/)?.[1];
+module.exports = async function handler(req, res) {
+const token = (req.headers.cookie||"").match(/wa=([^;]+)/)?.[1];
 if (!token) return res.status(401).json({ error: "Not connected" });
-const h = { Authorization: Bearer ${token} };
+const h = { Authorization: "Bearer " + token };
 try {
 const [rec, slp, cyc] = await Promise.all([
 fetch("https://api.prod.whoop.com/developer/v1/recovery?limit=1", { headers: h }).then(r=>r.json()),

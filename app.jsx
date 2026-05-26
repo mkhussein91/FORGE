@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+const { useState, useEffect, useCallback } = React;
 
 const STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap');
@@ -581,7 +581,7 @@ const NAV=[
   {id:"profile",   label:"Profile",  icon:"○"},
 ];
 
-export default function ForgeHealth(){
+function ForgeHealth(){
   const [tab,setTab]=useState("dashboard");
   return(
     <>
@@ -632,3 +632,4 @@ export default function ForgeHealth(){
     </>
   );
 }
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(ForgeHealth));

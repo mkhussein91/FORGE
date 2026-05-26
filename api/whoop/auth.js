@@ -1,4 +1,4 @@
-export default function handler(req, res) {
+module.exports = function handler(req, res) {
 const CLIENT_ID = process.env.WHOOP_CLIENT_ID;
 const APP_URL = process.env.APP_URL || "[https://forge-k9id.vercel.app](https://forge-k9id.vercel.app/)";
 const REDIRECT = APP_URL + "/api/whoop/callback";

@@ -1,9 +1,10 @@
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
   const key = process.env.ANTHROPIC_API_KEY;
-  if (!key) return res.status(500).json({ error: "No API key" });
+  if (!key) return res.status(500).json({ error: "No API key configured" });
   try {
-    const body = JSON.parse(req.body || "{}");
+    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    const prompt = body.prompt || "";
     const r = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -14,7 +15,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 2500,
-        messages: [{ role: "user", content: body.prompt }]
+        messages: [{ role: "user", content: prompt }]
       })
     });
     const d = await r.json();

@@ -444,10 +444,9 @@ Respond ONLY in JSON:
 {"insight":"2-3 sentences using the real WHOOP numbers","focus":"${split.focus}","duration":"60-75 min","intensity":"High","warmup":"specific warmup for today","exercises":[{"name":"Exercise Name","sets":4,"reps":"6-8","rest":"2 min","note":"coaching tip"}],"cooldown":"specific cooldown","recovery":["tip1","tip2","tip3"]}`;
 
     try{
-      const r=await fetch("https://api.anthropic.com/v1/messages",{
+      const r=await fetch("/api/workout",{
         method:"POST",headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:2500,
-          messages:[{role:"user",content:prompt}]})
+        body:JSON.stringify({prompt:prompt})
       });
       const d=await r.json();
       const txt=d.content?.map(b=>b.text||"").join("")||"{}";

@@ -454,7 +454,7 @@ const txt=d.content?.map(b=>b.text||"").join("")||"{}";
       const w=JSON.parse(txt.replace(/```json|```/g,"").trim());
       setWorkout(w);ss("forge_workout_"+today,w);
       setInsights(w);ss("forge_insights",w);
-    }catch(e){console.error(e)}
+    }catch(e){alert("Error: "+e.message)}
   };
 
   useEffect(()=>{

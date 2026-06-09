@@ -415,7 +415,7 @@ function ForgeHealth(){
   const syncData=async()=>{
     setSyncing(true);
     try{
-      const r=await fetch("/api/whoop/daily");
+const r=await fetch("/api/whoop/daily",{credentials:"include"});
       if(r.ok){
         const d=await r.json();
         if(d.strain||d.calories||d.avgHR||d.sleepScore){

@@ -582,8 +582,38 @@ const NAV=[
 ];
 
 function ForgeHealth(){
-const [tab,setTab]=useState("dashboard");
-const [syncing,setSyncing]=useState(false);
+  const [tab,setTab]=useState("dashboard");
+  const [whoopData,setWhoopData]=useState(null);
+  const [syncing,setSyncing]=useState(false);
+
+  const syncData = async()=>{
+    setSyncing(true);
+    try{
+      const r=await fetch("/api/whoop/daily");
+      if(r.ok){ const d=await r.json(); setWhoopData(d); localStorage.setItem("forge_whoop",JSON.stringify(d)); }
+    }catch(e){}
+    setSyncing(false);
+  };
+
+  React.useEffect(()=>{
+    const cached=localStorage.getItem("forge_whoop");
+    if(cached)setWhoopData(JSON.parse(cached));
+    syncData();
+  },[]);
+
+  const liveData = whoopData ? {
+    ...DEMO,
+    whoop:{ ...DEMO.whoop,
+      ...(whoopData.strain!=null&&{strain:whoopData.strain}),
+      ...(whoopData.calories!=null&&{calories:whoopData.calories}),
+      ...(whoopData.avgHR!=null&&{avgHR:whoopData.avgHR}),
+    },
+    oura:{ ...DEMO.oura,
+      ...(whoopData.sleepScore!=null&&{sleepScore:whoopData.sleepScore}),
+      ...(whoopData.totalSleep!=null&&{totalSleep:whoopData.totalSleep}),
+    }
+  } : DEMO;
+
   return(
     <>
       <style>{STYLES}</style>
@@ -599,22 +629,25 @@ const [syncing,setSyncing]=useState(false);
             <span style={{fontFamily:"var(--fd)",fontSize:20,letterSpacing:3}}>FORGE</span>
             <span style={{fontFamily:"var(--fm)",fontSize:9,color:"var(--muted)"}}>HEALTH OS</span>
           </div>
-         <div style={{display:"flex",alignItems:"center",gap:8}}>
-<span style={{fontFamily:"var(--fm)",fontSize:10,color:"var(--muted)"}}>
-{new Date().toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}
-</span>
-<button onClick={()=>window.location.reload()} style={{
-background:"var(--card)",border:"1px solid var(--accent)",color:"var(--accent)",
-borderRadius:6,padding:"4px 12px",fontFamily:"var(--fm)",fontSize:10,cursor:"pointer"
-}}>↻ SYNC</button>
-</div>
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <span style={{fontFamily:"var(--fm)",fontSize:10,color:"var(--muted)"}}>
+              {new Date().toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}
+            </span>
+            <button onClick={syncData} disabled={syncing} style={{
+              background:"var(--card)",border:"1px solid var(--accent)",color:"var(--accent)",
+              borderRadius:6,padding:"4px 12px",fontFamily:"var(--fm)",fontSize:10,cursor:"pointer",
+              opacity:syncing?0.6:1}}>
+              {syncing?"SYNCING...":"↻ SYNC"}
+            </button>
+          </div>
+        </div>
 
         {/* Content */}
         <div style={{flex:1,padding:"14px 14px 0"}}>
-          {tab==="dashboard"  && <Dashboard/>}
-          {tab==="biometrics" && <Biometrics/>}
+          {tab==="dashboard"  && <Dashboard data={liveData} insights={INSIGHTS}/>}
+          {tab==="biometrics" && <Biometrics data={liveData}/>}
           {tab==="workout"    && <Workout/>}
-          {tab==="nutrition"  && <Nutrition/>}
+          {tab==="nutrition"  && <Nutrition data={liveData} insights={INSIGHTS}/>}
           {tab==="profile"    && <Profile/>}
           <div style={{height:80}}/>
         </div>
@@ -638,4 +671,5 @@ borderRadius:6,padding:"4px 12px",fontFamily:"var(--fm)",fontSize:10,cursor:"poi
     </>
   );
 }
+
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(ForgeHealth));

@@ -418,9 +418,10 @@ function ForgeHealth(){
 const r=await fetch("/api/whoop/daily",{credentials:"include"});
       if(r.ok){
         const d=await r.json();
-      setWhoop(d);ss("forge_whoop",d);
+    setWhoop(d);ss("forge_whoop",d);
+        try{await generateWorkout(d);}catch(err){alert("Workout error: "+err.message);}
       }
-    }catch(e){console.error(e)}
+    }catch(e){alert("Sync error: "+e.message)}
     setSyncing(false);
   };
 

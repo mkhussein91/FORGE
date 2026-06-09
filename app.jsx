@@ -601,18 +601,25 @@ function ForgeHealth(){
     syncData();
   },[]);
 
-  const liveData = whoopData ? {
+    const liveData = {
     ...DEMO,
-    whoop:{ ...DEMO.whoop,
-      ...(whoopData.strain!=null&&{strain:whoopData.strain}),
-      ...(whoopData.calories!=null&&{calories:whoopData.calories}),
-      ...(whoopData.avgHR!=null&&{avgHR:whoopData.avgHR}),
+    whoop:{
+      recovery:   whoopData?.recovery   ?? DEMO.whoop.recovery,
+      hrv:        whoopData?.hrv        ?? DEMO.whoop.hrv,
+      restingHR:  whoopData?.restingHR  ?? DEMO.whoop.restingHR,
+      strain:     whoopData?.strain     ?? DEMO.whoop.strain,
+      calories:   whoopData?.calories   ?? DEMO.whoop.calories,
+      avgHR:      whoopData?.avgHR      ?? DEMO.whoop.avgHR,
+      activeCalories: DEMO.whoop.activeCalories,
+      skinTemp:   DEMO.whoop.skinTemp,
     },
-    oura:{ ...DEMO.oura,
-      ...(whoopData.sleepScore!=null&&{sleepScore:whoopData.sleepScore}),
-      ...(whoopData.totalSleep!=null&&{totalSleep:whoopData.totalSleep}),
-    }
-  } : DEMO;
+    oura:{
+      ...DEMO.oura,
+      sleepScore: whoopData?.sleepScore ?? DEMO.oura.sleepScore,
+      totalSleep: whoopData?.totalSleep ?? DEMO.oura.totalSleep,
+    },
+    history: DEMO.history,
+  };
 
   return(
     <>

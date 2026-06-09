@@ -419,7 +419,6 @@ const r=await fetch("/api/whoop/daily",{credentials:"include"});
       if(r.ok){
         const d=await r.json();
       setWhoop(d);ss("forge_whoop",d);
-          alert("WHOOP: strain="+d.strain+" cal="+d.calories+" hr="+d.avgHR);
       }
     }catch(e){console.error(e)}
     setSyncing(false);

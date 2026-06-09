@@ -449,7 +449,8 @@ Respond ONLY in JSON:
         body:JSON.stringify({prompt:prompt})
       });
       const d=await r.json();
-      const txt=d.content?.map(b=>b.text||"").join("")||"{}";
+const txt=d.content?.map(b=>b.text||"").join("")||"{}";
+      alert("AI response: "+txt.substring(0,100));
       const w=JSON.parse(txt.replace(/```json|```/g,"").trim());
       setWorkout(w);ss("forge_workout_"+today,w);
       setInsights(w);ss("forge_insights",w);

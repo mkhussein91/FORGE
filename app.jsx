@@ -112,7 +112,7 @@ function ForgeHealth(){
         setWhoop(d);
         ss("forge_whoop",d);
         setStatusMsg("Generating workout...");
-        return doGenerateWorkout(d);
+        return Promise.resolve();
       })
       .then(function(){
         setStatusMsg("");

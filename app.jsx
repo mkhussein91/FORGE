@@ -590,7 +590,13 @@ function ForgeHealth(){
     setSyncing(true);
     try{
       const r=await fetch("/api/whoop/daily");
-      if(r.ok){ const d=await r.json(); setWhoopData(d); localStorage.setItem("forge_whoop",JSON.stringify(d)); }
+      if(r.ok){
+        const d=await r.json();
+        if(d.strain||d.calories||d.avgHR){
+          setWhoopData(d);
+          localStorage.setItem("forge_whoop",JSON.stringify(d));
+        }
+      }
     }catch(e){}
     setSyncing(false);
   };

@@ -10,5 +10,5 @@ module.exports = function handler(req, res) {
     + "&redirect_uri=" + encodeURIComponent(REDIRECT)
     + "&scope=" + encodeURIComponent(scope)
     + "&state=" + state;
-  res.redirect(url);
+  res.json({ debug_client_id: CLIENT_ID, debug_url: url });
 }

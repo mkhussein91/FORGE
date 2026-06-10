@@ -161,7 +161,15 @@ function ForgeHealth(){
             React.createElement(Card,{label:"Strain",value:whoop.strain,unit:"/21",color:"var(--accent2)",icon:"🔥"}),
             React.createElement(Card,{label:"Sleep Score",value:whoop.sleepScore,unit:"%",color:"var(--blue)",icon:"🌙"}),
             React.createElement(Card,{label:"Calories",value:whoop.calories,unit:"kcal",color:"var(--gold)",icon:"⚡"}),
-            React.createElement(Card,{label:"Avg HR",value:whoop.avgHR,unit:"bpm",color:"#ff9f43",icon:"❤️"})
+            React.createElement(Card,{label:"Avg HR",value:whoop.avgHR,unit:"bpm",color:"#ff9f43",icon:"❤️"}),
+            React.createElement(Card,{label:"Max HR",value:whoop.maxHR,unit:"bpm",color:"#ff5e5e",icon:"💓"}),
+            React.createElement(Card,{label:"Sleep Efficiency",value:whoop.sleepEfficiency,unit:"%",color:"var(--blue)",icon:"💤"}),
+            React.createElement(Card,{label:"Total Sleep",value:whoop.totalSleep,unit:"hrs",color:"var(--accent3)",icon:"🛏️"}),
+            React.createElement(Card,{label:"Sleep Need",value:whoop.sleepNeed,unit:"hrs",color:"var(--accent3)",icon:"🎯"}),
+            React.createElement(Card,{label:"Deep Sleep",value:whoop.deepSleep,unit:"hrs",color:"#9d7bff",icon:"🌑"}),
+            React.createElement(Card,{label:"REM Sleep",value:whoop.remSleep,unit:"hrs",color:"#7bc8ff",icon:"🧠"}),
+            React.createElement(Card,{label:"Resp. Rate",value:whoop.respiratoryRate,unit:"br/min",color:"var(--muted)",icon:"🫁"}),
+            React.createElement(Card,{label:"Disturbances",value:whoop.disturbances,unit:"",color:"var(--accent2)",icon:"⚠️"})
           ),
           insights&&insights.recovery?React.createElement("div",{style:{background:"var(--card)",border:"1px solid var(--border)",borderRadius:16,padding:18}},
             React.createElement("h2",{style:{fontFamily:"var(--fd)",fontSize:18,letterSpacing:2,marginBottom:14}},"RECOVERY TIPS"),

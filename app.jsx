@@ -149,12 +149,15 @@ return doGenerateWorkout(d);
           if(d.content[i].text)txt+=d.content[i].text;
         }
       }
-      if(!txt)return;
-      txt=txt.replace(/```json/g,"").replace(/```/g,"").trim();
-      var w=JSON.parse(txt);
-      setWorkout(w);ss("forge_workout_"+today,w);
-      setInsights(w);ss("forge_insights",w);
-    });
+     if(!txt){alert("No text in response");return;}
+      try{
+        txt=txt.replace(/```json/g,"").replace(/```/g,"").trim();
+        var w=JSON.parse(txt);
+        setWorkout(w);ss("forge_workout_"+today,w);
+        setInsights(w);ss("forge_insights",w);
+      }catch(parseErr){
+        alert("Parse error: "+parseErr.message+" | Text: "+txt.substring(0,200));
+      }
   }
 
   // --- RENDER ---

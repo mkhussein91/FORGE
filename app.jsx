@@ -82,7 +82,7 @@ function ForgeHealth(){
     var prompt="You are an elite strength coach. Athlete has L5-S1 spinal fusion (Jan 2025). RULES: NO conventional deadlifts, NO barbell squats, NO standing overhead press. ALWAYS 10min warmup (cat-cow, bird-dog, glute bridges). Core: dead bug, pallof press only. Allowed: back extensions, cable pull-throughs, hip thrusts, seated rows, lat pulldowns, incline press, dumbbell press, machine work.\n\n";
     prompt+="Athlete: "+(p.heightFt||"?")+"ft "+(p.heightIn||"?")+"in, "+(p.weightLbs||"?")+"lbs, "+(p.trainingAge||"?")+" yrs training\n";
     prompt+="Conditions: "+(p.healthProblems||"L5-S1 fusion Jan 2025")+"\n\n";
-    prompt+="WHOOP today: Strain "+(wd.strain||"?")+"/21, Sleep "+(wd.sleepScore||"?")+"%, Calories "+(wd.calories||"?")+" kcal, Avg HR "+(wd.avgHR||"?")+" bpm\n\n";
+    prompt+="WHOOP today: Strain "+(wd.strain||"?")+"/21, Sleep Score "+(wd.sleepScore||"?")+"%, Sleep Efficiency "+(wd.sleepEfficiency||"?")+"%, Total Sleep "+(wd.totalSleep||"?")+"h (need "+(wd.sleepNeed||"?")+"h), Deep Sleep "+(wd.deepSleep||"?")+"h, REM "+(wd.remSleep||"?")+"h, Disturbances "+(wd.disturbances||"?")+", Calories "+(wd.calories||"?")+" kcal, Avg HR "+(wd.avgHR||"?")+" bpm, Max HR "+(wd.maxHR||"?")+" bpm, Respiratory Rate "+(wd.respiratoryRate||"?")+"\n\n";
     prompt+="Today split: "+split.focus+"\n";
     if(wd.sleepScore&&wd.sleepScore<50)prompt+="Sleep very low - reduce volume 30%, focus on technique.\n";
     if(wd.strain&&wd.strain>16)prompt+="Strain already high - lighter session today.\n";

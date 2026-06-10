@@ -19,6 +19,10 @@ module.exports = async function handler(req, res) {
       })
     });
     var d = await r.json();
+    console.log("Anthropic response:", JSON.stringify(d).substring(0, 500));
     res.json(d);
-  } catch (e) { res.status(500).json({ error: e.message }); }
+  } catch (e) {
+    console.log("Error:", e.message);
+    res.status(500).json({ error: e.message });
+  }
 }

@@ -68,6 +68,8 @@ function ForgeHealth(){
       .then(function(){
         setMsg("");
         setSyncing(false);
+        setTab("workout");
+      })
       })
       .catch(function(e){
         setMsg("Sync error: "+e.message);

@@ -160,7 +160,7 @@ function ForgeHealth(){
           React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}},
             React.createElement(Card,{label:"Strain",value:whoop.strain,unit:"/21",color:"var(--accent2)",icon:"🔥"}),
             React.createElement(Card,{label:"Sleep Score",value:whoop.sleepScore,unit:"%",color:"var(--blue)",icon:"🌙"}),
-            React.createElement(Card,{label:"Calories",value:whoop.calories,unit:"kcal",color:"var(--gold)",icon:"⚡"}),
+            React.createElement(Card,{label:"Calories Burned",value:whoop.calories,unit:"kcal",color:"var(--gold)",icon:"⚡"}),
             React.createElement(Card,{label:"Avg HR",value:whoop.avgHR,unit:"bpm",color:"#ff9f43",icon:"❤️"}),
             React.createElement(Card,{label:"Max HR",value:whoop.maxHR,unit:"bpm",color:"#ff5e5e",icon:"💓"}),
             React.createElement(Card,{label:"Sleep Efficiency",value:whoop.sleepEfficiency,unit:"%",color:"var(--blue)",icon:"💤"}),

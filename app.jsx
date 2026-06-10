@@ -62,8 +62,8 @@ function ForgeHealth(){
       .then(function(d){
         setWhoop(d);
         ss("forge_whoop",d);
-        setMsg("Generating your workout...");
-        return doGenerate(d);
+      setMsg("Generating your workout...");
+        return doGenerate(d).catch(function(e){setMsg("Gen error: "+e.message);});
       })
       .then(function(){
         setMsg("");
@@ -96,7 +96,7 @@ function ForgeHealth(){
     })
     .then(function(r){return r.json();})
     .then(function(d){
-      var txt="";
+      var txt=""; if(d.error){setMsg("API error: "+d.error.message);return;}
       if(d&&d.content&&d.content.length>0){
         for(var i=0;i<d.content.length;i++){
           if(d.content[i].text)txt+=d.content[i].text;

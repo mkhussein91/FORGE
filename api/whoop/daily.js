@@ -29,7 +29,10 @@ module.exports = async function handler(req, res) {
   if (!token) return res.status(401).json({ error: "Not connected" });
 
   const h = { Authorization: "Bearer " + token };
-  let strain=null,calories=null,avgHR=null,maxHR=null,sleepScore=null,totalSleep=null,sleepEfficiency=null,respiratoryRate=null,sleepNeed=null,timeInBed=null,lightSleep=null,deepSleep=null,remSleep=null,awakeTime=null,disturbances=null;
+  let strain=null,calories=null,avgHR=null,maxHR=null,sleepScore=null,totalSleep=null,
+      sleepEfficiency=null,respiratoryRate=null,sleepNeed=null,timeInBed=null,
+      lightSleep=null,deepSleep=null,remSleep=null,awakeTime=null,disturbances=null,
+      skinTemp=null,spo2=null;
 
   try {
     const cyc = await fetch("https://api.prod.whoop.com/developer/v1/cycle?limit=1", { headers: h }).then(r=>r.json());
@@ -38,6 +41,14 @@ module.exports = async function handler(req, res) {
     calories = Math.round((cs.kilojoule||0)*0.239) || null;
     avgHR    = Math.round(cs.average_heart_rate) || null;
     maxHR    = Math.round(cs.max_heart_rate) || null;
+
+    const cycId = cyc?.records?.[0]?.id;
+    if(cycId){
+      const rec = await fetch("https://api.prod.whoop.com/developer/v1/cycle/"+cycId+"/recovery", { headers: h }).then(r=>r.json());
+      const rs = rec?.score || {};
+      skinTemp = rs.skin_temp_celsius != null ? Math.round(rs.skin_temp_celsius*10)/10 : null;
+      spo2 = rs.spo2_percentage != null ? Math.round(rs.spo2_percentage*10)/10 : null;
+    }
   } catch(e) {}
 
   try {
@@ -58,9 +69,10 @@ module.exports = async function handler(req, res) {
   } catch(e) {}
 
   res.json({
-    recovery:null, hrv:null, restingHR:null,
+    recovery: null, hrv: null, restingHR: null,
     strain, calories, avgHR, maxHR,
     sleepScore, totalSleep, sleepEfficiency, respiratoryRate, sleepNeed,
-    timeInBed, lightSleep, deepSleep, remSleep, awakeTime, disturbances
+    timeInBed, lightSleep, deepSleep, remSleep, awakeTime, disturbances,
+    skinTemp, spo2
   });
 }
